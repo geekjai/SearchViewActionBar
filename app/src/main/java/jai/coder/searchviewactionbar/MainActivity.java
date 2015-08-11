@@ -2,12 +2,14 @@ package jai.coder.searchviewactionbar;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -19,6 +21,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         toolbar=(Toolbar)findViewById(R.id.app_bar_sa);
         setSupportActionBar(toolbar);
+        handleIntent(getIntent());
     }
 
     @Override
@@ -49,5 +52,19 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    //For new Intent.
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            // Do work using string
+            Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
+        }
     }
 }
